@@ -7,6 +7,7 @@ var jwt = require('jsonwebtoken')
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
 var security = require('../security/security');
+const config = require('../config')
 
 // Route de base /api
 router.post('/auth-tokens', upload.fields([]), function (req, res) {
@@ -17,8 +18,11 @@ router.post('/auth-tokens', upload.fields([]), function (req, res) {
     if (user) {
       // On génère un token, on le stocke en base, et on le renvoi
       const token = jwt.sign(
-        { userId: user.id },
-        'RANDOM_TOKEN_SECRET',
+        {
+          userId: user.id,
+          mail: user.email
+        },
+        config.jwt_secret,
         { expiresIn: '24h'}
       )
       res.status(200).json({

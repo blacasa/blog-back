@@ -23,7 +23,7 @@ WHERE 1=1
   and jeu.id = ` + gameId
   },
   insertEditeur: function () {
-    return `INSERT INTO editeur (code, libelle) VALUES (?, ?)`
+    return `INSERT INTO editeur (code, libelle, datcre, datmaj, autcre, autmaj) SELECT ?, ?, NOW(), NOW(), ?, ?`
   }
 }
 

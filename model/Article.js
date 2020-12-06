@@ -1,5 +1,6 @@
 const db = require('../database')
 const queries = require('../sql/article')
+let session = require('../session')
 
 const articleModel = {
   getArticle: function (limit) {
@@ -46,7 +47,8 @@ const articleModel = {
       data.positif,
       data.negatif,
       data.idJeu,
-      data.image
+      data.image,
+      session.email
     ]
     // Si data.id est défini, on est en mode misr à jour
     if (typeof data.id !== 'undefined') {
@@ -55,6 +57,9 @@ const articleModel = {
       params.push(data.id)
       console.log('query: ', query)
       console.log('params: ', params)
+    } else {
+      // Auteur de création
+      params.push(session.email)
     }
 
     return db.query(query, params).then( row => {

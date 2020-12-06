@@ -39,13 +39,13 @@ WHERE 1=1
   AND article.id = ?`
   },
   insertJeu: function () {
-    return `INSERT INTO jeu (nom, annee, j_min, j_max, duree_min, duree_max, duree_partie, envie, image, datcre, datmaj)
-SELECT ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW()`
+    return `INSERT INTO jeu (nom, annee, j_min, j_max, duree_min, duree_max, duree_partie, envie, image, datcre, datmaj, autcre, autmaj)
+SELECT ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW(), ?, ?`
   },
   updateJeu: function () {
     return `UPDATE jeu SET nom = ?, annee = ?, j_min = ?, j_max = ?,
 duree_min = ?, duree_max = ?, duree_partie = ?, envie = ?, image = ?,
-datmaj = NOW()
+datmaj = NOW(), autmaj = ?
 WHERE id = ?`
   },
   linkJeuEditeur: function () {

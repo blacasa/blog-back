@@ -1,5 +1,6 @@
 const db = require('../database')
 const queries = require('../sql/personnalite')
+let session = require('../session')
 
 const personnaliteModel = {
   getPersonnalite: function () {
@@ -26,7 +27,7 @@ const personnaliteModel = {
   postPersonnalite: function (data) {
     console.log('postPersonnalite')
     const query = queries.insertPersonnalite()
-    const params = [ data.nom, data.prenom ]
+    const params = [ data.nom, data.prenom, session.email, session.email ]
 
     return db.query(query, params).then( row => {
       //const insertedId = row.insertId

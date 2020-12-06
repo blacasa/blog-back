@@ -38,7 +38,7 @@ WHERE 1=1
   and jeu_personnalite.id_jeu = ` + gameId
   },
   insertPersonnalite: function () {
-    return `INSERT INTO personnalite (nom, prenom) VALUES (?, ?)`
+    return `INSERT INTO personnalite (nom, prenom, datcre, datmaj, autcre, autmaj) SELECT ?, ?, NOW(), NOW()`
   }
 }
 

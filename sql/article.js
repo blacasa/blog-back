@@ -35,13 +35,13 @@ WHERE 1=1
   and id_jeu = ` + gameId
   },
   insertArticle: function () {
-    return `INSERT INTO article (titre, contenu, date_publication, positif, negatif, id_jeu, image, datcre, datmaj)
-SELECT ?, ?, ?, ?, ?, ?, ?, NOW(), NOW()`
+    return `INSERT INTO article (titre, contenu, date_publication, positif, negatif, id_jeu, image, datcre, datmaj, autcre, autmaj)
+SELECT ?, ?, ?, ?, ?, ?, ?, NOW(), NOW(), ?, ?`
   },
   updateArticle: function () {
     return `UPDATE article SET titre = ?, contenu = ?, date_publication = ?,
 positif = ?, negatif = ?, id_jeu = ?, image = ?,
-datmaj = NOW()
+datmaj = NOW(), autmaj = ?
 WHERE id = ?`
   }
 }

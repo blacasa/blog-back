@@ -1,5 +1,6 @@
 const db = require('../database')
 const queries = require('../sql/jeu')
+let session = require('../session')
 
 const jeuModel = {
   getJeu: function (textSearch) {
@@ -30,8 +31,10 @@ const jeuModel = {
       data.dureeMax,
       data.dureePartie,
       data.envie,
-      data.image
+      data.image,
+      session.email
     ]
+    // session.email est l'auteur de mise à jour
     // Si data.id est défini, on est en mode misr à jour
     if (typeof data.id !== 'undefined') {
       console.log('Mode UPDATE')
@@ -39,6 +42,9 @@ const jeuModel = {
       params.push(data.id)
       console.log('query: ', query)
       console.log('params: ', params)
+    } else {
+      // Auteur de création
+      params.push(session.email)
     }
 
     return db.query(query, params).then( row => {
