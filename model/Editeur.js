@@ -15,6 +15,15 @@ const editeurModel = {
     return db.query(query).then( rows => {
       return rows
     });
+  },
+  postEditeur: function (data) {
+    const query = queries.insertEditeur()
+    const params = [ data.code, data.libelle ]
+
+    return db.query(query, params).then( row => {
+      //const insertedId = row.insertId
+      return row
+    });
   }
 }
 

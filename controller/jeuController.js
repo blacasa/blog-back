@@ -1,44 +1,48 @@
 var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
+var multer = require('multer');
+var upload = multer();
+
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
-var jeuModel = require('../model/Jeu');
-var editeurModel = require('../model/Editeur');
 
+var jeuModel = require('../model/Jeu');
+var formatter = require('../formatter/formatter')
+const auth = require('../security/auth');
+    
 // Route de base /api/jeu
 router.get('/', function (req, res) {
-  jeuModel.getJeu(req.query.game).then(jeux => {
+  jeuModel.getJeu(req.query.game).then(games => {
     // Pour chaque jeu:
-    jeux.forEach(jeu => {
-      console.log(jeu)
-      // Récupération des éditeurs
-      editeurModel.getGameEditeur(jeu.id).then(editeurs => {
-        console.log(editeurs)
-        //res.status(200).json(data)
-      }).catch(err => {
-        res.status(400).json(err)
-      })
-      // Récupération des personnalités
-      // Récupération des articles
+    formatter.formatJeux(games).then((jeux) => {
+      res.status(200).json(jeux)
     });
-    res.status(200).json(jeux)
+  }).catch(err => {
+    console.log(err)
+    res.status(400).json(err)
+  })
+});
+router.post('/', upload.fields([]), auth, function (req, res) {
+  const data = JSON.parse(req.body.data)
+  console.log('post jeu:', data)
+  jeuModel.postJeu(data).then(insertedId => {
+    console.log('Link to Editeur')
+    // Link to Editeur
+    jeuModel.linkToEditeurs(insertedId, data.editeur).then(() => {
+    console.log('Link to Auteur')
+      // Link to Auteur / Illustrateur
+      return jeuModel.linkToPersonnalites(insertedId, data.auteurs, data.illustrateurs)
+    }).then(() => {
+      jeuModel.getJeu().then(games => { 
+        formatter.formatJeux(games).then((jeux) => {
+          res.status(200).json(jeux)
+        });
+      })
+    })
   }).catch(err => {
     res.status(400).json(err)
   })
 });
-/*
-router.post('/', function (req, res) {
-    Matiere.creatematiere(req.body,function(err,count){
-        if(err)
-        {
-            res.status(400).json(err);
-        }
-        else{
-            res.json(req.body);
-        }
-    });
-});
-// */
 
 module.exports = router;

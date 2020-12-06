@@ -7,21 +7,14 @@ const config = {
     database: '13blog'
 }
 
-/*
-const database = mysql.createPool(config)
-
-module.exports = database;
-// */
-
+// Source: https://codeburst.io/node-js-mysql-and-promises-4c3be599909b
 class Database {
   constructor(config) {
-    console.log('Database - constructor')
     this.connection = mysql.createConnection( config );
   }
-  query( sql ) {
+  query( sql, attr ) {
     return new Promise((resolve, reject) => {
-      console.log('Database', sql)
-      this.connection.query( sql, ( err, rows ) => {
+      this.connection.query( sql, attr, ( err, rows ) => {
         if ( err ) {
           return reject(err);
         }
@@ -40,8 +33,6 @@ class Database {
     } );
   }
 }
-
-//export default new Database(config)
 
 const dbInstance = new Database(config)
 module.exports = dbInstance;

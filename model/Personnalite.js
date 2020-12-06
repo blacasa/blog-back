@@ -8,6 +8,30 @@ const personnaliteModel = {
     return db.query(query).then( rows => {
       return rows
     });
+  },
+  getGameAuthor: function (gameId) {
+    let query = queries.auteurByGame(gameId)
+
+    return db.query(query).then( rows => {
+      return rows
+    });
+  },
+  getGameIllustrator: function (gameId) {
+    let query = queries.illustrateurByGame(gameId)
+
+    return db.query(query).then( rows => {
+      return rows
+    });
+  },
+  postPersonnalite: function (data) {
+    console.log('postPersonnalite')
+    const query = queries.insertPersonnalite()
+    const params = [ data.nom, data.prenom ]
+
+    return db.query(query, params).then( row => {
+      //const insertedId = row.insertId
+      return row
+    });
   }
 }
 

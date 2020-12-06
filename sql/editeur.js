@@ -21,6 +21,9 @@ FROM
   left join jeu on jeu_editeur.id_jeu = jeu.id
 WHERE 1=1
   and jeu.id = ` + gameId
+  },
+  insertEditeur: function () {
+    return `INSERT INTO editeur (code, libelle) VALUES (?, ?)`
   }
 }
 
