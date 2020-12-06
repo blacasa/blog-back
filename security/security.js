@@ -22,9 +22,6 @@ const security = {
       const query = 'INSERT INTO users (password, email, firstname, lastname) VALUES (\'' + hash + '\', \'' + login + '\', \'first\', \'last\')';
       
       return db.query(query).then(user => {
-        console.log('-------------------')
-        console.log(user)
-        //console.log(password, ' -> ', user[0].password)
         return user
       });
     })

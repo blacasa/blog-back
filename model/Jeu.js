@@ -20,7 +20,6 @@ const jeuModel = {
     });
   },
   postJeu: function (data) {
-    console.log('postJeu', data)
     let query = queries.insertJeu()
     let params = [
       data.nom,
@@ -37,11 +36,8 @@ const jeuModel = {
     // session.email est l'auteur de mise à jour
     // Si data.id est défini, on est en mode misr à jour
     if (typeof data.id !== 'undefined') {
-      console.log('Mode UPDATE')
       query = queries.updateJeu()
       params.push(data.id)
-      console.log('query: ', query)
-      console.log('params: ', params)
     } else {
       // Auteur de création
       params.push(session.email)
@@ -49,12 +45,10 @@ const jeuModel = {
 
     return db.query(query, params).then( row => {
       //const insertedId = row.insertId
-      console.log(row)
       return row.insertId !== 0 ? row.insertId : data.id
     });
   },
   unlinkJeuEditeur: function (gameId) {
-    console.log('unlinkJeuEditeur')
     const deleteQuery = queries.unlinkJeuEditeur()
     const deleteParams = [
       gameId
@@ -66,7 +60,6 @@ const jeuModel = {
     })
   },
   linkJeuEditeur: function (gameId, editeurIds) {
-    console.log('linkToEditeur')
     return new Promise((resolve, reject) => {
       editeurIds.forEach((editeurId, index) => {
         const query = queries.linkJeuEditeur()
@@ -83,7 +76,6 @@ const jeuModel = {
     });
   },
   linkToEditeurs: function (gameId, editeurs) {
-    console.log('linkToEditeurs')
     const editeurIds = editeurs.split(',');
 
     return this.unlinkJeuEditeur(gameId).then(() => {
@@ -94,7 +86,6 @@ const jeuModel = {
     })
   },
   unlinkJeuPersonnalite: function (gameId) {
-    console.log('unlinkJeuPersonnalite')
     const deleteQuery = queries.unlinkJeuPersonnalite()
     const deleteParams = [
       gameId
@@ -106,7 +97,6 @@ const jeuModel = {
     })
   },
   linkJeuAuteur: function (gameId, auteurIds) {
-    console.log('linkJeuAuteur', auteurIds)
     if (auteurIds === null) return new Promise((resolve, reject) => resolve())
     return new Promise((resolve, reject) => {
       auteurIds.forEach((auteurId, index) => {
@@ -124,7 +114,6 @@ const jeuModel = {
     });
   },
   linkJeuIllustrateur: function (gameId, illustrateurIds) {
-    console.log('linkJeuAuteur')
     if (illustrateurIds === null) return new Promise((resolve, reject) => resolve())
     return new Promise((resolve, reject) => {
       illustrateurIds.forEach((illustrateurId, index) => {
@@ -142,7 +131,6 @@ const jeuModel = {
     });
   },
   linkToPersonnalites: function (gameId, auteurs, illustrateurs) {
-    console.log('linkToPersonnalites')
     const auteurIds = auteurs !== '' ? auteurs.split(',') : null;
     const illustrateurIds = illustrateurs !== '' ? illustrateurs.split(',') : null;
 

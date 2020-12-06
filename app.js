@@ -23,16 +23,6 @@ app.use((req, res, next) => {
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 app.use(bodyParser.json({limit: '50mb'}));
 
-// Routes POST
-/*
-app.post('/api/jeu', (req, res, next) => {
-  console.log('Body:', JSON.parse(req.body.data));
-  res.status(201).json({
-    message: 'Objet créé !'
-  });
-});
-//*/
-
 // Routes 
 app.use('/api', securityController);
 app.use('/api/article', articleController);

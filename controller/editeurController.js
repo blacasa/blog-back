@@ -20,9 +20,7 @@ router.get('/', function (req, res) {
 });
 router.post('/', upload.fields([]), auth, function (req, res) {
   const data = JSON.parse(req.body.data)
-  console.log('post editeur:', data)
   editeurModel.postEditeur(data).then(data => {
-    console.log(data)
     editeurModel.getEditeur().then(data => {
       res.status(200).json(data)
     })

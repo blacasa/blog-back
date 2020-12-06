@@ -7,7 +7,6 @@ var personnaliteModel = require('../model/Personnalite');
 const formatter = {
   formatJeux: function (jeux, withArticle=true) {
     return new Promise((resolve, reject) => {
-      console.log('formatJeux')
       jeux.forEach((jeu, index) => {
         jeu.personnalites = {}
         // Récupération des éditeurs
@@ -39,7 +38,6 @@ const formatter = {
   },
   formatArticles: function (articles, withJeu=true) {
     return new Promise((resolve, reject) => {
-      console.log('formatArticles')
       articles.forEach((article, index) => {
         article.jeu = {}
         // Récupération des articles

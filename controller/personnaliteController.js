@@ -20,7 +20,6 @@ router.get('/', function (req, res) {
 });
 router.post('/', upload.fields([]), auth, function (req, res) {
   const data = JSON.parse(req.body.data)
-  console.log('post personnalite:', data)
   personnaliteModel.postPersonnalite(data).then(data => {
     personnaliteModel.getPersonnalite().then(data => {
       res.status(200).json(data)

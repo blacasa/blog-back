@@ -25,12 +25,9 @@ router.get('/', function (req, res) {
 });
 router.post('/', upload.fields([]), auth, function (req, res) {
   const data = JSON.parse(req.body.data)
-  console.log('post jeu:', data)
   jeuModel.postJeu(data).then(insertedId => {
-    console.log('Link to Editeur')
     // Link to Editeur
     jeuModel.linkToEditeurs(insertedId, data.editeur).then(() => {
-    console.log('Link to Auteur')
       // Link to Auteur / Illustrateur
       return jeuModel.linkToPersonnalites(insertedId, data.auteurs, data.illustrateurs)
     }).then(() => {

@@ -25,7 +25,6 @@ const personnaliteModel = {
     });
   },
   postPersonnalite: function (data) {
-    console.log('postPersonnalite')
     const query = queries.insertPersonnalite()
     const params = [ data.nom, data.prenom, session.email, session.email ]
 

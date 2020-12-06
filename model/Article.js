@@ -38,7 +38,6 @@ const articleModel = {
     });
   },
   postArticle: function (data) {
-    console.log('postArticle')
     let query = queries.insertArticle()
     let params = [
       data.titre,
@@ -52,11 +51,8 @@ const articleModel = {
     ]
     // Si data.id est défini, on est en mode misr à jour
     if (typeof data.id !== 'undefined') {
-      console.log('Mode UPDATE')
       query = queries.updateArticle()
       params.push(data.id)
-      console.log('query: ', query)
-      console.log('params: ', params)
     } else {
       // Auteur de création
       params.push(session.email)
@@ -64,7 +60,6 @@ const articleModel = {
 
     return db.query(query, params).then( row => {
       //const insertedId = row.insertId
-      console.log(row)
       return row.insertId !== 0 ? row.insertId : data.id
     });
   }

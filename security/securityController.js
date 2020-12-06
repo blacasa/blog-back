@@ -11,10 +11,8 @@ const config = require('../config')
 
 // Route de base /api
 router.post('/auth-tokens', upload.fields([]), function (req, res) {
-  console.log('post auth-tokens:', JSON.parse(req.body.data));
   const loginForm = JSON.parse(req.body.data)
   security.login(loginForm.login, loginForm.password).then(user => {
-    console.log(user)
     if (user) {
       // On génère un token, on le stocke en base, et on le renvoi
       const token = jwt.sign(
@@ -37,7 +35,6 @@ router.post('/auth-tokens', upload.fields([]), function (req, res) {
   })
 });
 router.post('/register', upload.fields([]), function (req, res) {
-  console.log('post register:', JSON.parse(req.body.data));
   const loginForm = JSON.parse(req.body.data)
   security.register(loginForm.login, loginForm.password).then(user => {
     res.status(200).json(user)
