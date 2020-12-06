@@ -1,11 +1,5 @@
 const mysql = require('mysql')
-
-const config = {
-    host: 'localhost',
-    user: 'root',
-    password: 'blacasa',
-    database: '13blog'
-}
+const config = require('./config')
 
 // Source: https://codeburst.io/node-js-mysql-and-promises-4c3be599909b
 class Database {
@@ -34,5 +28,5 @@ class Database {
   }
 }
 
-const dbInstance = new Database(config)
+const dbInstance = new Database(config.database)
 module.exports = dbInstance;

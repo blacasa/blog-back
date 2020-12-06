@@ -1,5 +1,11 @@
 const config = {
-    jwt_secret: 'secret'
+    jwt_secret: '',
+    database: {
+        host: '',
+        user: '',
+        password: '',
+        database: ''
+    }
 }
 
 module.exports = config
