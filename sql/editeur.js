@@ -9,7 +9,7 @@ FROM
   editeur
 WHERE 1=1`
   },
-  editeurByGame: function (gameId) {
+  editeurByGame: function () {
     return `
 SELECT
   editeur.id,
@@ -20,7 +20,7 @@ FROM
   left join jeu_editeur on editeur.id = jeu_editeur.id_editeur
   left join jeu on jeu_editeur.id_jeu = jeu.id
 WHERE 1=1
-  and jeu.id = ` + gameId
+  and jeu.id = ?`
   },
   insertEditeur: function () {
     return `INSERT INTO editeur (code, libelle, datcre, datmaj, autcre, autmaj) SELECT ?, ?, NOW(), NOW(), ?, ?`

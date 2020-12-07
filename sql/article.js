@@ -23,7 +23,7 @@ WHERE 1=1`
   limit: function (limit) {
     return ` LIMIT ` + limit
   },
-  articleByGame: function (gameId) {
+  articleByGame: function () {
     return `
 SELECT
   id,
@@ -32,7 +32,7 @@ SELECT
 FROM
   article
 WHERE 1=1
-  and id_jeu = ` + gameId
+  and id_jeu = ?`
   },
   insertArticle: function () {
     return `INSERT INTO article (titre, contenu, date_publication, positif, negatif, id_jeu, image, datcre, datmaj, autcre, autmaj)

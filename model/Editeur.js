@@ -11,9 +11,9 @@ const editeurModel = {
     });
   },
   getGameEditeur: function(gameId) {
-    let query = queries.editeurByGame(gameId)
+    let query = queries.editeurByGame()
 
-    return db.query(query).then( rows => {
+    return db.query(query, [ gameId ]).then( rows => {
       return rows
     });
   },

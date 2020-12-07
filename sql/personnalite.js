@@ -9,7 +9,7 @@ FROM
   personnalite
 WHERE 1=1`
   },
-  auteurByGame: function (gameId) {
+  auteurByGame: function () {
     return `
 SELECT
   personnalite.id,
@@ -21,9 +21,9 @@ FROM
   join role on jeu_personnalite.id_role = role.id
 WHERE 1=1
   and role.code = 'AUTEUR'
-  and jeu_personnalite.id_jeu = ` + gameId
+  and jeu_personnalite.id_jeu = ?`
   },
-  illustrateurByGame: function (gameId) {
+  illustrateurByGame: function () {
     return `
 SELECT
   personnalite.id,
@@ -35,10 +35,10 @@ FROM
   join role on jeu_personnalite.id_role = role.id
 WHERE 1=1
   and role.code = 'ILLUS'
-  and jeu_personnalite.id_jeu = ` + gameId
+  and jeu_personnalite.id_jeu = ?`
   },
   insertPersonnalite: function () {
-    return `INSERT INTO personnalite (nom, prenom, datcre, datmaj, autcre, autmaj) SELECT ?, ?, NOW(), NOW()`
+    return `INSERT INTO personnalite (nom, prenom, datcre, datmaj, autcre, autmaj) SELECT ?, ?, NOW(), NOW(), ?, ?`
   }
 }
 

@@ -15,13 +15,6 @@ const articleModel = {
       return rows
     });
   },
-  getArticle: function () {
-    let query = queries.allArticles()
-
-    return db.query(query).then( rows => {
-      return rows
-    });
-  },
   getArticleById: function (id) {
     let query = queries.allArticles()
     query += queries.filterById(id)
@@ -31,9 +24,9 @@ const articleModel = {
     });
   },
   getArticleByGame: function (gameId) {
-    let query = queries.articleByGame(gameId)
+    let query = queries.articleByGame()
 
-    return db.query(query).then( rows => {
+    return db.query(query, [ gameId ]).then( rows => {
       return rows
     });
   },

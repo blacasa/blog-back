@@ -11,16 +11,16 @@ const personnaliteModel = {
     });
   },
   getGameAuthor: function (gameId) {
-    let query = queries.auteurByGame(gameId)
+    let query = queries.auteurByGame()
 
-    return db.query(query).then( rows => {
+    return db.query(query, [ gameId ]).then( rows => {
       return rows
     });
   },
   getGameIllustrator: function (gameId) {
-    let query = queries.illustrateurByGame(gameId)
+    let query = queries.illustrateurByGame()
 
-    return db.query(query).then( rows => {
+    return db.query(query, [ gameId ]).then( rows => {
       return rows
     });
   },
