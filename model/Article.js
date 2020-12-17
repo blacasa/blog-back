@@ -7,6 +7,7 @@ const articleModel = {
     const queryLimit = typeof limit === 'undefined' ? null : limit
     let query = queries.allArticles()
     query += queries.filterByPublished()
+    query += queries.orderByPublishedDate()
     if (queryLimit !== null) {
       query += queries.limit(queryLimit)
     }
@@ -18,6 +19,7 @@ const articleModel = {
   getArticleById: function (id) {
     let query = queries.allArticles()
     query += queries.filterById(id)
+    query += queries.orderByPublishedDate()
 
     return db.query(query).then( rows => {
       return rows
@@ -25,9 +27,18 @@ const articleModel = {
   },
   getArticleByGame: function (gameId) {
     let query = queries.articleByGame()
+    query += queries.orderByPublishedDate()
 
     return db.query(query, [ gameId ]).then( rows => {
       return rows
+    });
+  },
+  getCountArticles: function () {
+    let query = queries.countArticle()
+    query += queries.orderByPublishedDate()
+    return db.query(query).then(rows => {
+      console.log(rows[0].nbPublishedArticles)
+      return rows[0].nbPublishedArticles
     });
   },
   postArticle: function (data) {

@@ -5,8 +5,10 @@ const articleController = require('./controller/articleController')
 const editeurController = require('./controller/editeurController')
 const jeuController = require('./controller/jeuController')
 const personnaliteController = require('./controller/personnaliteController')
+const referenceController = require('./controller/referenceController')
 const roleController = require('./controller/roleController')
 const securityController = require('./security/securityController')
+const typeController = require('./controller/typeController')
 
 const app = express();
 
@@ -25,11 +27,13 @@ app.use(bodyParser.json({limit: '50mb'}));
 
 // Routes 
 app.use('/api', securityController);
-app.use('/api/article', articleController);
-app.use('/api/editeur', editeurController);
-app.use('/api/jeu', jeuController);
-app.use('/api/personnalite', personnaliteController);
-app.use('/api/role', roleController);
+app.use('/api/articles', articleController);
+app.use('/api/editeurs', editeurController);
+app.use('/api/jeux', jeuController);
+app.use('/api/personnalites', personnaliteController);
+app.use('/api/references', referenceController);
+app.use('/api/roles', roleController);
+app.use('/api/types', typeController);
 
 
 module.exports = app;

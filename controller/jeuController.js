@@ -26,15 +26,21 @@ router.get('/', function (req, res) {
 router.post('/', upload.fields([]), auth, function (req, res) {
   const data = JSON.parse(req.body.data)
   jeuModel.postJeu(data).then(insertedId => {
+    console.log('postJeu.then')
     // Link to Editeur
     jeuModel.linkToEditeurs(insertedId, data.editeur).then(() => {
+      console.log('linkToEditeur.then')
       // Link to Auteur / Illustrateur
       return jeuModel.linkToPersonnalites(insertedId, data.auteurs, data.illustrateurs)
     }).then(() => {
-      jeuModel.getJeu().then(games => { 
-        formatter.formatJeux(games).then((jeux) => {
-          res.status(200).json(jeux)
-        });
+      console.log('linkToPersonnalite.then')
+      jeuModel.linkToType(insertedId, data.types).then(() => {
+        jeuModel.getJeu().then(games => { 
+          formatter.formatJeux(games).then((jeux) => {
+            console.log('formatJeux.then')
+            res.status(200).json(jeux)
+          })
+        })
       })
     })
   }).catch(err => {

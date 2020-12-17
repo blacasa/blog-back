@@ -3,6 +3,7 @@ var articleModel = require('../model/Article');
 var editeurModel = require('../model/Editeur');
 const jeuModel = require('../model/Jeu');
 var personnaliteModel = require('../model/Personnalite');
+const typeModel = require('../model/Type');
 
 const formatter = {
   formatJeux: function (jeux, withArticle=true) {
@@ -19,6 +20,11 @@ const formatter = {
               jeu.articles = articles
             })
           }
+        }).then(() => {
+          // Récupération des types
+          typeModel.getGameType(jeu.id).then(types => {
+            jeu.types = types
+          })
         }).then(() => {
           // Récupération des auteurs
           personnaliteModel.getGameAuthor(jeu.id).then(auteurs => {

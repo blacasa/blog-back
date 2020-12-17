@@ -2,18 +2,18 @@ const queries = {
   allJeux: function () {
     return  `
 SELECT
-    id,
-    nom,
-    annee,
-    j_min as jMin,
-    j_max as jMax,
-    duree_min as dureeMin,
-    duree_max as dureeMax,
-    duree_partie as dureePartie,
-    envie,
-    image
+  id,
+  nom,
+  annee,
+  j_min as jMin,
+  j_max as jMax,
+  duree_min as dureeMin,
+  duree_max as dureeMax,
+  duree_partie as dureePartie,
+  envie,
+  image
 FROM
-    jeu
+  jeu
 WHERE 1=1`
   },
   filterByNom: function (nom) {
@@ -65,6 +65,13 @@ SELECT ?, ?, role.id FROM role WHERE code = 'ILLUS';`
   },
   unlinkJeuPersonnalite: function () {
     return `DELETE FROM jeu_personnalite WHERE id_jeu = ?`
+  },
+  unlinkJeuType: function () {
+    return `DELETE FROM jeu_type WHERE id_jeu = ?`
+  },
+  linkJeuType: function () {
+    return `INSERT INTO jeu_type (id_jeu, id_type)
+VALUES (?, ?);`
   }
 }
 

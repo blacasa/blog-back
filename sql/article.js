@@ -23,6 +23,12 @@ WHERE 1=1`
   limit: function (limit) {
     return ` LIMIT ` + limit
   },
+  orderByPublishedDate: function () {
+    return ` ORDER BY article.date_publication DESC`
+  },
+  countArticle: function () {
+    return `SELECT COUNT(*) as nbPublishedArticles FROM article WHERE 1=1`
+  },
   articleByGame: function () {
     return `
 SELECT
