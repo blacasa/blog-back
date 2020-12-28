@@ -44,7 +44,6 @@ router.get('/:id', function (req, res) {
 });
 router.post('/', upload.fields([]), auth, function (req, res) {
   const data = JSON.parse(req.body.data)
-  console.log('post article:', data)
   articleModel.postArticle(data).then(insertedId => {
     articleModel.getArticle().then(data => {
       formatter.formatArticles(data).then((articles) => {
