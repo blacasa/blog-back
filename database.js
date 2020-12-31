@@ -4,7 +4,8 @@ const config = require('./config')
 // Source: https://codeburst.io/node-js-mysql-and-promises-4c3be599909b
 class Database {
   constructor(config) {
-    this.connection = mysql.createConnection( config );
+    // this.connection = mysql.createConnection(config);
+    this.connection  = mysql.createPool(config);
   }
   query( sql, attr ) {
     return new Promise((resolve, reject) => {

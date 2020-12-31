@@ -7,40 +7,36 @@ const typeModel = require('../model/Type');
 
 const formatter = {
   formatJeux: function (jeux, withArticle=true) {
-    return new Promise((resolve, reject) => {
-      jeux.forEach((jeu, index) => {
-        jeu.personnalites = {}
-        // Récupération des éditeurs
-        editeurModel.getGameEditeur(jeu.id).then(editeurs => {
-          jeu.editeurs = editeurs
-        }).then(() => {
-          // Récupération des articles
-          if (withArticle) {
-            articleModel.getArticleByGame(jeu.id).then(articles => {
-              jeu.articles = articles
-            })
-          }
-        }).then(() => {
-          // Récupération des types
-          typeModel.getGameType(jeu.id).then(types => {
-            jeu.types = types
-          })
-        }).then(() => {
-          // Récupération des auteurs
-          personnaliteModel.getGameAuthor(jeu.id).then(auteurs => {
-            jeu.personnalites.auteurs = auteurs
-          })
-        }).then(() => {
-          // Récupération des illustrateurs
-          personnaliteModel.getGameIllustrator(jeu.id).then(illustrateurs => {
-            jeu.personnalites.illustrateurs = illustrateurs
-            if (index === jeux.length - 1) resolve(jeux);
-          })
-        }).catch(err => {
-          reject(err)
+    const allGamePromises = jeux.map((jeu, index) => {
+      jeu.personnalites = {}
+      const editeurPromise = editeurModel.getGameEditeur(jeu.id)
+      const articlePromise = withArticle ? articleModel.getArticleByGame(jeu.id) : null
+      const typePromise = typeModel.getGameType(jeu.id)
+      const auteurPromise = personnaliteModel.getGameAuthor(jeu.id)
+      const illustrateurPromise = personnaliteModel.getGameIllustrator(jeu.id)
+      const gamePromises = [
+        editeurPromise,
+        articlePromise,
+        typePromise,
+        auteurPromise,
+        illustrateurPromise
+      ]
+      return Promise.all(gamePromises).then(results => {
+        jeu.editeurs = results[0]
+        if (withArticle) {
+          jeu.articles = results[1]
+        }
+        jeu.types = results[2]
+        jeu.personnalites.auteurs = results[3]
+        jeu.personnalites.illustrateurs = results[4]
+        return new Promise(resolve => {
+          resolve(jeu)
         })
+      }).catch(err => {
+        reject(err)
       });
     });
+    return Promise.all(allGamePromises)
   },
   formatArticles: function (articles, withJeu=true) {
     return new Promise((resolve, reject) => {
@@ -48,8 +44,8 @@ const formatter = {
         article.jeu = {}
         // Récupération des articles
         if (withJeu) {
-          jeuModel.getJeuByArticle(article.id).then(jeu => {
-            this.formatJeux(jeu, false).then(jeu => {
+          jeuModel.getJeuByArticle(article.id).then(jeuArticle => {
+            this.formatJeux(jeuArticle, false).then(jeu => {
               article.jeu = jeu[0]
               if (index === articles.length - 1) resolve(articles);
             })

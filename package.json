@@ -4,7 +4,9 @@
   "description": "serveur web pour le blog",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "postinstall": "[ -z \"$GANDI\" ] || NODE_ENV=production npm run build"
   },
   "repository": {
     "type": "git",
