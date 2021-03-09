@@ -37,7 +37,7 @@ const articleModel = {
     let query = queries.countArticle()
     query += queries.orderByPublishedDate()
     return db.query(query).then(rows => {
-      console.log(rows[0].nbPublishedArticles)
+      // console.log(rows[0].nbPublishedArticles)
       return rows[0].nbPublishedArticles
     });
   },

@@ -1,6 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 var path = require('path');
+const morgan = require('morgan');
+
 
 const articleController = require('./controller/articleController')
 const editeurController = require('./controller/editeurController')
@@ -19,12 +21,13 @@ const app = express();
  */
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization, X-AUTH-TOKEN');
+  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization, X-AUTH-TOKEN, stats');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
   next();
 });
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
-app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.json({ limit: '50mb' }));
+
 
 // Routes
 app.use(express.static(__dirname + '/front')); 

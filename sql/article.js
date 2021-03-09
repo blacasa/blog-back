@@ -9,7 +9,8 @@ SELECT
   positif,
   negatif,
   image,
-  id_jeu as idJeu
+  id_jeu as idJeu,
+  code_url as codeUrl
 FROM
   article
 WHERE 1=1`
@@ -18,7 +19,7 @@ WHERE 1=1`
     return ` AND article.date_publication <= NOW()`
   },
   filterById: function (id) {
-    return ` AND article.id = `  + id
+    return ` AND (article.id = '`  + id +`' OR article.code_url = '` + id + `')`
   },
   limit: function (limit) {
     return ` LIMIT ` + limit
@@ -34,7 +35,8 @@ WHERE 1=1`
 SELECT
   id,
   titre,
-  date_publication as datePublication
+  date_publication as datePublication,
+  code_url as codeUrl
 FROM
   article
 WHERE 1=1
