@@ -2,17 +2,38 @@ const queries = {
   allArticles: function () {
     return  `
 SELECT
-  id,
-  titre,
-  contenu,
-  date_publication as datePublication,
-  positif,
-  negatif,
-  image,
-  id_jeu as idJeu,
-  code_url as codeUrl
+  article.id,
+  article.titre,
+  article.contenu,
+  article.date_publication as datePublication,
+  article.positif,
+  article.negatif,
+  article.image,
+  article.id_jeu as idJeu,
+  article.code_url as codeUrl,
+  GROUP_CONCAT(distinct categorie.code ORDER BY categorie.code SEPARATOR'|') as categories
 FROM
   article
+  LEFT JOIN article_categorie ON article.id = article_categorie.id_article
+  LEFT JOIN categorie ON article_categorie.id_categorie = categorie.id
+WHERE 1=1`
+  },
+  allArticlesLigthContent: function () {
+    return  `
+SELECT
+  article.id,
+  article.titre,
+  SUBSTRING(article.contenu, 1, 1000) as contenu,
+  article.date_publication as datePublication,
+  article.positif,
+  article.negatif,
+  article.id_jeu as idJeu,
+  article.code_url as codeUrl,
+  GROUP_CONCAT(distinct categorie.code ORDER BY categorie.code SEPARATOR'|') as categories
+FROM
+  article
+  LEFT JOIN article_categorie ON article.id = article_categorie.id_article
+  LEFT JOIN categorie ON article_categorie.id_categorie = categorie.id
 WHERE 1=1`
   },
   filterByPublished: function () {
@@ -26,6 +47,9 @@ WHERE 1=1`
   },
   orderByPublishedDate: function () {
     return ` ORDER BY article.date_publication DESC`
+  },
+  groupByContact: function () {
+    return ` GROUP BY article.id`
   },
   countArticle: function () {
     return `SELECT COUNT(*) as nbPublishedArticles FROM article WHERE 1=1`

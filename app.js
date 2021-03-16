@@ -31,6 +31,7 @@ app.use(bodyParser.json({ limit: '50mb' }));
 
 // Routes
 app.use(express.static(__dirname + '/front')); 
+app.use(express.static(__dirname + '/images')); 
 
 app.use('/api', securityController);
 app.use('/api/articles', articleController);
@@ -41,8 +42,14 @@ app.use('/api/references', referenceController);
 app.use('/api/roles', roleController);
 app.use('/api/types', typeController);
 
+app.get('/images/*', function (req, res) {
+  // res.sendFile(path.join(__dirname + '/front/index.html'));
+  // console.log('/images',  __dirname + "/images/")
+  res.status(200).sendFile(req.params[0], { root: __dirname + "/images/" } );
+});
 app.get('/*', function (req, res) {
   // res.sendFile(path.join(__dirname + '/front/index.html'));
+  // console.log('/*')
   res.status(200).sendFile('index.html', { root: __dirname + "/front/" } );
 });
 

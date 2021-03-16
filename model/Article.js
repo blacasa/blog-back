@@ -7,6 +7,21 @@ const articleModel = {
     const queryLimit = typeof limit === 'undefined' ? null : limit
     let query = queries.allArticles()
     query += queries.filterByPublished()
+    query += queries.groupByContact()
+    query += queries.orderByPublishedDate()
+    if (queryLimit !== null) {
+      query += queries.limit(queryLimit)
+    }
+
+    return db.query(query).then( rows => {
+      return rows
+    });
+  },
+  getArticleLigthContent: function (limit) {
+    const queryLimit = typeof limit === 'undefined' ? null : limit
+    let query = queries.allArticlesLigthContent()
+    query += queries.filterByPublished()
+    query += queries.groupByContact()
     query += queries.orderByPublishedDate()
     if (queryLimit !== null) {
       query += queries.limit(queryLimit)
@@ -19,6 +34,7 @@ const articleModel = {
   getArticleById: function (id) {
     let query = queries.allArticles()
     query += queries.filterById(id)
+    query += queries.groupByContact()
     query += queries.orderByPublishedDate()
 
     return db.query(query).then( rows => {

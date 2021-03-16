@@ -30,7 +30,7 @@ router.get('/', function (req, res) {
     stats = JSON.parse(stats)
   }
   statsModel.addVisit(page, callData, stats)
-  articleModel.getArticle(limit).then(data => {
+  articleModel.getArticleLigthContent(limit).then(data => {
     formatter.formatArticles(data).then((articles) => {
       articles.forEach(article => {
         if (typeof article.jeu.id === 'undefined' || article.jeu === null) {
