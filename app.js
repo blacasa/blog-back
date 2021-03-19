@@ -42,6 +42,11 @@ app.use('/api/references', referenceController);
 app.use('/api/roles', roleController);
 app.use('/api/types', typeController);
 
+app.get('/images/articles/*', function (req, res) {
+  // res.sendFile(path.join(__dirname + '/front/index.html'));
+  // console.log('/images',  __dirname + "/images/")
+  res.status(200).sendFile(req.params[0], { root: __dirname + "/images/articles/" } );
+});
 app.get('/images/*', function (req, res) {
   // res.sendFile(path.join(__dirname + '/front/index.html'));
   // console.log('/images',  __dirname + "/images/")
