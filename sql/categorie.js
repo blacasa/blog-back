@@ -7,7 +7,8 @@ SELECT
   categorie.libelle
 FROM
   categorie
-WHERE 1=1`
+WHERE 1=1
+  and categorie.actif = 1`
   }
 }
 

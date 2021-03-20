@@ -15,7 +15,7 @@ SELECT
 FROM
   article
   LEFT JOIN article_categorie ON article.id = article_categorie.id_article
-  LEFT JOIN categorie ON article_categorie.id_categorie = categorie.id
+  LEFT JOIN categorie ON article_categorie.id_categorie = categorie.id and categorie.actif = 1
 WHERE 1=1`
   },
   allArticlesLigthContent: function () {
@@ -33,7 +33,7 @@ SELECT
 FROM
   article
   LEFT JOIN article_categorie ON article.id = article_categorie.id_article
-  LEFT JOIN categorie ON article_categorie.id_categorie = categorie.id
+  LEFT JOIN categorie ON article_categorie.id_categorie = categorie.id and categorie.actif = 1
 WHERE 1=1`
   },
   filterByPublished: function () {
@@ -68,13 +68,20 @@ WHERE 1=1
   },
   insertArticle: function () {
     return `INSERT INTO article (titre, contenu, date_publication, positif, negatif, id_jeu, image, datcre, datmaj, autcre, autmaj)
-SELECT ?, ?, ?, ?, ?, ?, ?, NOW(), NOW(), ?, ?`
+SELECT ?, ?, ?, ?, ?, ?, NULL, NOW(), NOW(), ?, ?`
   },
   updateArticle: function () {
     return `UPDATE article SET titre = ?, contenu = ?, date_publication = ?,
-positif = ?, negatif = ?, id_jeu = ?, image = ?,
+positif = ?, negatif = ?, id_jeu = ?, image = NULL,
 datmaj = NOW(), autmaj = ?
 WHERE id = ?`
+  },
+  unlinkArticleCategorie: function () {
+    return `DELETE FROM article_categorie WHERE id_article = ?`
+  },
+  linkArticleCategorie: function () {
+    return `INSERT INTO article_categorie (id_article, id_categorie)
+VALUES (?, ?);`
   }
 }
 

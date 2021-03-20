@@ -66,7 +66,6 @@ const articleModel = {
       data.positif,
       data.negatif,
       data.idJeu,
-      data.image,
       session.email
     ]
     // Si data.id est défini, on est en mode misr à jour
@@ -81,6 +80,45 @@ const articleModel = {
     return db.query(query, params).then( row => {
       //const insertedId = row.insertId
       return row.insertId !== 0 ? row.insertId : data.id
+    });
+  },
+  linkToCategories: function (articleId, categories) {
+    const categorieIds = categories.split(',');
+
+    return this.unlinkArticleCategorie(articleId).then(() => {
+      return this.linkArticleCategorie(articleId, categorieIds).then( row => {
+        return row.insertId
+      });
+    })
+  },
+  unlinkArticleCategorie: function (articleId) {
+    const deleteQuery = queries.unlinkArticleCategorie()
+    const deleteParams = [
+      articleId
+    ]
+    return db.query(deleteQuery, deleteParams).then( row => {
+      return articleId;
+    }).catch(err => {
+      reject(err)
+    })
+  },
+  linkArticleCategorie: function (articleId, categorieIds) {
+    if (categorieIds === null) return new Promise(resolve => resolve())
+    return new Promise((resolve, reject) => {
+      let cpt = 0
+      categorieIds.forEach(categorieId => {
+        const query = queries.linkArticleCategorie()
+        const params = [
+          articleId,
+          categorieId
+        ]
+        db.query(query, params).then(row => {
+          cpt++
+          if (cpt === categorieIds.length) resolve(articleId);
+        }).catch(err => {
+          reject(err)
+        })
+      })
     });
   }
 }

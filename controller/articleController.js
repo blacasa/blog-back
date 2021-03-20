@@ -78,11 +78,13 @@ router.post('/', upload.fields([]), auth, function (req, res) {
   const data = JSON.parse(req.body.data)
   // console.log('POST article')
   articleModel.postArticle(data).then(insertedId => {
-    // console.log('POST then')
-    articleModel.getArticle().then(data => {
-      formatter.formatArticles(data).then((articles) => {
-        res.status(200).json(articles)
-      });
+    articleModel.linkToCategories(insertedId, data.categories).then(() => {
+      // console.log('POST then')
+      articleModel.getArticle().then(data => {
+        formatter.formatArticles(data).then((articles) => {
+          res.status(200).json(articles)
+        });
+      })
     })
   }).catch(err => {
     res.status(400).json(err)
