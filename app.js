@@ -11,6 +11,7 @@ const personnaliteController = require('./controller/personnaliteController')
 const referenceController = require('./controller/referenceController')
 const roleController = require('./controller/roleController')
 const securityController = require('./security/securityController')
+const statController = require('./controller/statController')
 const typeController = require('./controller/typeController')
 
 const app = express();
@@ -40,6 +41,7 @@ app.use('/api/jeux', jeuController);
 app.use('/api/personnalites', personnaliteController);
 app.use('/api/references', referenceController);
 app.use('/api/roles', roleController);
+app.use('/api/stats', statController);
 app.use('/api/types', typeController);
 
 app.get('/images/articles/*', function (req, res) {

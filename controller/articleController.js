@@ -33,8 +33,11 @@ router.get('/', function (req, res) {
   articleModel.getArticleLigthContent(limit).then(data => {
     formatter.formatArticles(data).then((articles) => {
       articles.forEach(article => {
-        if (typeof article.jeu.id === 'undefined' || article.jeu === null) {
-          console.log('ERREUR: jeu manquant sur article '+article.id+' (id jeu: '+article.idJeu+')')
+        if (typeof article.jeu === 'undefined'
+          || typeof article.jeu.id === 'undefined'
+          || article.jeu === null) {
+          console.log('ERREUR: jeu manquant sur article ' + article.id + ' (id jeu: ' + article.idJeu + ')')
+           article.jeu = null
         }
       });
       res.status(200).json(articles)
@@ -47,6 +50,14 @@ router.get('/all', function (req, res) {
   console.log('route /all')
   articleModel.getArticle().then(data => {
     formatter.formatArticles(data).then((articles) => {
+      articles.forEach(article => {
+        if (typeof article.jeu === 'undefined'
+          || typeof article.jeu.id === 'undefined'
+          || article.jeu === null) {
+          console.log('ERREUR: jeu manquant sur article ' + article.id + ' (id jeu: ' + article.idJeu + ')')
+           article.jeu = null
+        }
+      });
       res.status(200).json(articles)
     });
   }).catch(err => {
@@ -68,6 +79,14 @@ router.get('/:id', function (req, res) {
   statsModel.addVisit('/api/article/'+req.params.id, callData, stats)
   articleModel.getArticleById(req.params.id).then(data => {
     formatter.formatArticles(data).then((articles) => {
+      articles.forEach(article => {
+        if (typeof article.jeu === 'undefined'
+          || typeof article.jeu.id === 'undefined'
+          || article.jeu === null) {
+          console.log('ERREUR: jeu manquant sur article ' + article.id + ' (id jeu: ' + article.idJeu + ')')
+           article.jeu = null
+        }
+      });
       res.status(200).json(articles[0])
     });
   }).catch(err => {
