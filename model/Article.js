@@ -43,6 +43,7 @@ const articleModel = {
   },
   getArticleByGame: function (gameId) {
     let query = queries.articleByGame()
+    query += queries.filterByPublished()
     query += queries.orderByPublishedDate()
 
     return db.query(query, [ gameId ]).then( rows => {
