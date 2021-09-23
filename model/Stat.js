@@ -8,6 +8,13 @@ const statModel = {
     return db.query(query).then( rows => {
       return rows
     });
+  },
+  getViewStats: function () {
+    let query = queries.getStats()
+
+    return db.query(query).then( rows => {
+      return rows
+    });
   }
 }
 

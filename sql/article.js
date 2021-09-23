@@ -11,11 +11,13 @@ SELECT
   article.image,
   article.id_jeu as idJeu,
   article.code_url as codeUrl,
-  GROUP_CONCAT(distinct categorie.code ORDER BY categorie.code SEPARATOR'|') as categories
+  GROUP_CONCAT(distinct categorie.code ORDER BY categorie.code SEPARATOR'|') as categories,
+  COUNT(stats.id) as nbVues
 FROM
   article
   LEFT JOIN article_categorie ON article.id = article_categorie.id_article
   LEFT JOIN categorie ON article_categorie.id_categorie = categorie.id and categorie.actif = 1
+  LEFT JOIN stats ON SUBSTRING(page, 14) = article.code_url or SUBSTRING(page, 14) = article.id
 WHERE 1=1`
   },
   allArticlesLigthContent: function () {
@@ -29,11 +31,13 @@ SELECT
   article.negatif,
   article.id_jeu as idJeu,
   article.code_url as codeUrl,
-  GROUP_CONCAT(distinct categorie.code ORDER BY categorie.code SEPARATOR'|') as categories
+  GROUP_CONCAT(distinct categorie.code ORDER BY categorie.code SEPARATOR'|') as categories,
+  COUNT(stats.id) as nbVues
 FROM
   article
   LEFT JOIN article_categorie ON article.id = article_categorie.id_article
   LEFT JOIN categorie ON article_categorie.id_categorie = categorie.id and categorie.actif = 1
+  LEFT JOIN stats ON SUBSTRING(page, 14) = article.code_url or SUBSTRING(page, 14) = article.id
 WHERE 1=1`
   },
   filterByPublished: function () {
