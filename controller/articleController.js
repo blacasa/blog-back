@@ -66,7 +66,7 @@ router.get('/all', function (req, res) {
 });
 router.get('/:id', function (req, res) {
   console.log('route /' + req.params.id)
-  console.log(req.headers.origin, req.headers.referer);
+  //console.log(req.headers.origin, req.headers.referer);
   // On note la visite de l'article.
   const callData = {
     origin: req.headers.origin,

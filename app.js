@@ -5,6 +5,7 @@ const morgan = require('morgan');
 
 
 const articleController = require('./controller/articleController')
+const contactController = require('./controller/contactController')
 const editeurController = require('./controller/editeurController')
 const jeuController = require('./controller/jeuController')
 const personnaliteController = require('./controller/personnaliteController')
@@ -13,6 +14,7 @@ const roleController = require('./controller/roleController')
 const securityController = require('./security/securityController')
 const statController = require('./controller/statController')
 const typeController = require('./controller/typeController')
+const visitController = require('./controller/visitController')
 
 const app = express();
 
@@ -45,6 +47,8 @@ app.use('/api/references', referenceController);
 app.use('/api/roles', roleController);
 app.use('/api/stats', statController);
 app.use('/api/types', typeController);
+app.use('/api/contact', contactController);
+app.use('/api/visit', visitController);
 
 // Pour les images
 app.get('/images/articles/*', function (req, res) {
@@ -73,7 +77,7 @@ app.get('/beta/*', function (req, res) {
 // Pour le front 13jeuxsolo.fr
 app.get('/*', function (req, res) {
   // res.sendFile(path.join(__dirname + '/front/index.html'));
-  // console.log('/*')
+  //console.log(req)
   res.status(200).sendFile('index.html', { root: __dirname + "/front/" } );
 });
 
